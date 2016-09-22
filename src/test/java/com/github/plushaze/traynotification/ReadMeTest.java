@@ -13,6 +13,8 @@ import org.junit.*;
 
 import javax.swing.*;
 import java.util.concurrent.CountDownLatch;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public final class ReadMeTest {
 
@@ -37,6 +39,14 @@ public final class ReadMeTest {
 	@Before
 	public void initializeTray() {
 		Platform.runLater(() -> tray = new TrayNotification());
+		//give a little time for the platfrom to come up.. wait a few seconds
+		try
+            	{
+                	Thread.sleep(1000);
+            	} catch (InterruptedException ex)
+        	{
+                	Logger.getLogger(ReadMeTest.class.getName()).log(Level.SEVERE, null, ex);
+            	}
 	}
 
 	@Test
@@ -48,7 +58,7 @@ public final class ReadMeTest {
 		tray.setTitle(title);
 		tray.setMessage(message);
 		tray.setNotification(notification);
-		tray.showAndWait();
+		Platform.runLater(() -> tray.showAndWait());
 	}
 
 	@Test
